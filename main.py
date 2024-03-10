@@ -4,6 +4,7 @@ import uvicorn
 from dotenv import load_dotenv
 
 from fastapi import FastAPI, Depends
+from starlette.middleware.cors import CORSMiddleware
 
 from schemas import userPayload
 from routers import get_user_info
@@ -11,6 +12,18 @@ from routers import get_user_info
 load_dotenv()
 
 app = FastAPI()
+
+
+origins = ["*"]  # Allow requests from any origin
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/healthy")
